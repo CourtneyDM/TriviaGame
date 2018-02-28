@@ -1,5 +1,8 @@
-$(document).ready(function() {
-    var questions = [{
+$(document).ready(function () {
+
+    // Object to hold questions and answers
+    var questions = [
+        {
             value: 0,
             image: "../images/Cowboys.png",
             question: "Who is the current quarterback for this team?",
@@ -36,4 +39,15 @@ $(document).ready(function() {
             answers: ["Atlanta", "Seattle", "Philadelphia", "Arizona"]
         },
     ];
+
+    // Used to select question at random index in array
+    var index = Math.floor(Math.random() * questions.length);
+
+    $("#start").click(function () {
+        $("#content").append().html('<p id="question"></p>');
+        var question = $("#question");
+        question.text(questions[0].question);
+    });
+
+
 });
