@@ -9,10 +9,10 @@
 
 
 ### TODO
-[ ] Store questions to be displayed
-[ ] Store answers for each question
-[ ] Remove question/answer combo once asked
-[ ] Display timer when new question is displayed
-[ ] Show answer when question has been guessed/time runs out
-[ ] Display correct/incorrect answers when game is over
-[ ] Clear screen and restart game when "Restart" button is clicked
+- [ ] Store questions to be displayed
+- [ ] Store answers for each question
+- [ ] Remove question/answer combo to be chosen again
+- [ ] Display timer when new question is displayed
+- [ ] Show answer when question has been guessed/time runs out
+- [ ] Display correct/incorrect answers when game is over
+- [ ] Clear screen and restart game when "Restart" button is clicked
