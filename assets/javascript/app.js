@@ -46,12 +46,17 @@ $(document).ready(function () {
         },
     ];
 
+    var intervalId;
+    var timerRunning = false;
+
+
 
     $("#start").click(showQuestion);
     var index = Math.floor(Math.random() * questions.length);
 
 
     function showQuestion() {
+
         content.empty();
         $("button").off();
 
@@ -99,4 +104,6 @@ $(document).ready(function () {
 
         });
     }
+
+
 });

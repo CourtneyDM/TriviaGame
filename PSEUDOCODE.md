@@ -25,9 +25,15 @@
     - Once timer is displayed, start countdown
     - If the timer reached 00:00, display correct answer
         - Display correct answer for 5 seconds
+        - Use the setInterval method for the counter
+            - create a function that will decrement the timer by 1 second (1000ms)
 
 
 ##### Questions Functionality
 * Use an Object to store questions with possible answers
 * Create an index number that will randomly select a question from the Object list of questions
+* Create a flag to determine whether or not that question has been asked before. 
+    - If the question has was previously asked, move to "asked" array.
+    - If the question has not been asked, display to screen
+        ** another thought would be to remove the question after it has been displayed ** 
 
