@@ -1,6 +1,7 @@
 $(document).ready(function () {
     var answerDisplay = $("#answers");
     var questionDisplay = $("#questions");
+    var tempArray = [];
 
     // Object to hold questions and choices
     var questions = [
@@ -58,7 +59,8 @@ $(document).ready(function () {
     var timer = {
         time_remaining: 0,
 
-        decrementTimer: function () {
+        // Decrement Timer
+        decrementTimer: function (question) {
             timer.time_remaining--;
             if (timer.time_remaining < 10) {
                 $("#timer").html("<p>00:0" + timer.time_remaining + "</p>");
@@ -69,16 +71,28 @@ $(document).ready(function () {
             if (timer.time_remaining === 0) {
                 timer.stopTimer();
                 alert("Time has expired");
+                incorrect_answers++;
+                question.asked = true;
+                console.log("Time out question: " + question.asked);
+                console.log("Timeout Counter: " + counter);
+                // removeQuestion();
                 clearContent();
             }
+            return;
         },
 
-        startTimer: function () {
-            intervalID = setInterval(timer.decrementTimer, 1000);
+        // Start Timer
+        startTimer: function (question) {
+            intervalID = setInterval(function () {
+                timer.decrementTimer(question)
+            }, 1000);
+            return;
         },
 
+        // Stop Timer
         stopTimer: function () {
             clearInterval(intervalID)
+            return;
         }
     }
 
@@ -87,42 +101,37 @@ $(document).ready(function () {
 
     // Display questions to screen
     function showQuestion() {
+
         index = Math.floor(Math.random() * questions.length);
 
-        var question = questions[index].question;
-        var asked = questions[index].asked;
+        console.log("Counter: " + counter);
+        console.log("Question: " + questions[index].question);
+        console.log("Asked: " + questions[index].asked);
 
-        console.log("counter: " + counter);
-        console.log(asked);
-
-        if (asked === true) {
-            counter++;
-            if (counter === questions.length) {
-                // create a function to show the results
-                console.log(counter + " questions have been asked.");
-            }
-            else {
-                index++;
-                console.log(counter);
-            }
+        if (questions[index].asked === true && counter === questions.length) {
+            showResults();
         }
+        else if (questions[index].asked === true && counter !== questions.length) {
+            showQuestion();
+        }
+        else {
+            questionDisplay.empty();
+            timer.time_remaining = 5;
+            timer.startTimer(questions[index]);
 
-        $("#questions").empty();
-        timer.time_remaining = 5;
-        timer.startTimer();
+            $("#instructions").hide();
+            $("button").off();
 
-        $("#instructions").hide();
-        $("button").off();
+            // $("#start").removeAttr("id");
+            // $("button").attr("id", "submit");
+            $("button").text("Submit Answers");
 
-        $("button").removeAttr("id");
-        $("button").text("Submit Answers");
-        $("button").attr("id", "submit");
+            questionDisplay.html("<p>" + questions[index].question + "</p>");
 
-
-        $("#questions").html("<p>" + question + "</p>");
-
-        showAnswers();
-        questions[index].asked = true;
+            showAnswers();
+            questions[index].asked = true;
+            counter++;
+        }
     }
 
     // Display answers to screen
@@ -132,33 +141,37 @@ $(document).ready(function () {
 
         for (var i = 0; i < answers.length; i++) {
             var answer = answers[i];
-            $("#answers").append("<input type='radio' name='answer' value='" + answer + "'/>" + answer);
+            answerDisplay.append("<input type='radio' name='answer' value='" + answer + "'/>" + answer);
         }
-        $("#submit").on("click", checkAnswer);
+        $("#start").on("click", checkAnswer);
     }
 
     // Check answers
     function checkAnswer() {
-        var correct = questions[index].answer;
+        // var correct = questions[index].answer;
         var chosen = $("input:checked").val();
 
         if (!chosen) {
             alert("no answer selected");
         }
         else
-            if (chosen === correct) {
+            if (chosen === questions[index].answer) {
                 // console.log("Correct answer");
-                $("button").hide();
+                // $("button").hide();
                 timer.stopTimer();
                 alert("Correct.");
+                correct_answers++;
+                // removeQuestion();
                 // $("#answers").append("<img src='https://media3.giphy.com/media/l8HFdR4jE4SM8/200w.webp'/>");
                 clearInterval(timer.intervalID);
                 clearContent();
             }
             else {
-                $("button").hide();
-                alert("Incorrect.");
+                // $("button").hide();
                 timer.stopTimer();
+                alert("Incorrect.");
+                incorrect_answers++;
+                // removeQuestion();
                 // $("#answers").append("<img src='https://media3.giphy.com/media/yhWfYEaF7TkQ0/giphy.gif'/>");
                 clearInterval(timer.intervalID);
                 clearContent();
@@ -170,8 +183,45 @@ $(document).ready(function () {
         questionDisplay.empty();
         answerDisplay.empty();
         // clearInterval(timer.intervalID);
-        $("button").css("display", "inherit");
-        $("#timer").html("<p>00:20</p>");
+        // $("button").css("display", "inherit");
+        $("#timer").html("<p>00:10</p>");
         showQuestion();
+    }
+
+    // function removeQuestion() {
+    //     tempArray[index] = questions.splice(index, 1);
+    //     console.log(tempArray);
+    //     return;
+    // }
+
+    function showResults() {
+        var content = $("#content");
+        $("button").off();
+        clearInterval(timer.intervalID);
+
+        content.empty();
+        content.html("<h2 id='results'>Your Results</h2>");
+        var correct = "<p>Correct Answers: " + correct_answers + "</p>";
+        var incorrect = "<p>Incorrect Answers: " + incorrect_answers + "</p>";
+
+        $("#results").append(correct).append(incorrect);
+        $("button").removeAttr("id");
+        $("button").text("Restart Game");
+        $("button").attr("id", "start");
+
+        $("#start").on("click", restartGame);
+
+    }
+
+    function restartGame() {
+        $("#content").empty();
+        correct_answers = 0;
+        counter = 0;
+        incorrect_answers = 0;
+        index = 0;
+        for (var i = 0; i < questions.length; i++) {
+            questions[i].asked = false;
+        }
+        clearContent();
     }
 });
