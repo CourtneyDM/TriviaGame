@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(function () {
     var answerDisplay = $("#answers");
     var content = $("#content");
     var imageDisplay = $("#imgSrc");
@@ -8,47 +8,47 @@ $(document).ready(function() {
 
     // Object to hold questions and choices
     var questions = [{
-            image: "assets/images/Cowboys.png",
-            question: "Who is the current quarterback for this team?",
-            choices: ["Tony Romo", "Dak Prescott", "Rush Cooper", "Danny Manziel"],
-            answer: "Dak Prescott",
-            asked: false
-        },
-        {
-            image: "assets/images/Bears.png",
-            question: "In what city is this team located?",
-            choices: ["Peoria", "Joilet", "Rockford", "Chicago"],
-            answer: "Chicago",
-            asked: false
-        },
-        {
-            image: "assets/images/Bills.png",
-            question: "What famous food originated in this team's city?",
-            choices: ["Buffalo Wings", "Philly Cheesesteak", "Deep Dish Pizza", "Cheesecake"],
-            answer: "Buffalo Wings",
-            asked: false
-        },
-        {
-            image: "assets/images/Broncos.png",
-            question: "Which former QB of this team enjoys Chicken Parmesan?",
-            choices: ["John Elway", "Tim Tebow", "Peyton Manning", "Brock Osweiler"],
-            answer: "Peyton Manning",
-            asked: false
-        },
-        {
-            image: "assets/images/Browns.png",
-            question: "Select the NBA team that shares this team city. Hint: they won the 2016 NBA Championship Title",
-            choices: ["Boston Celtics", "Golden State Warriors", "Miami Heat", "Cleveland Cavaliers"],
-            answer: "Cleveland Cavaliers",
-            asked: false
-        },
-        {
-            image: "assets/images/Falcons.png",
-            question: "This team had a dance back in 1998 called the \"Dirty Bird\", where is team located?",
-            choices: ["Atlanta", "Seattle", "Philadelphia", "Arizona"],
-            answer: "Atlanta",
-            asked: false
-        },
+        image: "assets/images/Cowboys.png",
+        question: "Who is the current quarterback for this team?",
+        choices: ["Tony Romo", "Dak Prescott", "Rush Cooper", "Danny Manziel"],
+        answer: "Dak Prescott",
+        asked: false
+    },
+    {
+        image: "assets/images/Bears.png",
+        question: "In what city is this team located?",
+        choices: ["Peoria", "Joilet", "Rockford", "Chicago"],
+        answer: "Chicago",
+        asked: false
+    },
+    {
+        image: "assets/images/Bills.png",
+        question: "What famous food originated in this team's city?",
+        choices: ["Buffalo Wings", "Philly Cheesesteak", "Deep Dish Pizza", "Cheesecake"],
+        answer: "Buffalo Wings",
+        asked: false
+    },
+    {
+        image: "assets/images/Broncos.png",
+        question: "Which former QB of this team enjoys Chicken Parmesan?",
+        choices: ["John Elway", "Tim Tebow", "Peyton Manning", "Brock Osweiler"],
+        answer: "Peyton Manning",
+        asked: false
+    },
+    {
+        image: "assets/images/Browns.png",
+        question: "Select the NBA team that shares this team city. Hint: they won the 2016 NBA Championship Title",
+        choices: ["Boston Celtics", "Golden State Warriors", "Miami Heat", "Cleveland Cavaliers"],
+        answer: "Cleveland Cavaliers",
+        asked: false
+    },
+    {
+        image: "assets/images/Falcons.png",
+        question: "This team had a dance back in 1998 called the \"Dirty Bird\", where is team located?",
+        choices: ["Atlanta", "Seattle", "Philadelphia", "Arizona"],
+        answer: "Atlanta",
+        asked: false
+    },
     ];
 
     var counter = 0;
@@ -56,13 +56,14 @@ $(document).ready(function() {
     var incorrect_answers = 0;
     var intervalID;
     var index;
+    var points = 10;
 
     // Timer Object
     var timer = {
         time_remaining: 10,
 
         // Decrement Timer
-        decrementTimer: function(question) {
+        decrementTimer: function (question) {
             timer.time_remaining--;
             if (timer.time_remaining < 10) {
                 $("#timer").html("<p>00:0" + timer.time_remaining + "</p>");
@@ -90,22 +91,22 @@ $(document).ready(function() {
         },
 
         // Start Timer
-        startTimer: function(question) {
-            intervalID = setInterval(function() {
+        startTimer: function (question) {
+            intervalID = setInterval(function () {
                 timer.decrementTimer(question)
             }, 1000);
             return;
         },
 
         // Stop Timer
-        stopTimer: function() {
+        stopTimer: function () {
             clearInterval(intervalID)
             return;
         }
     }
 
     // Start game when button has been clicked
-    $("#start").on("click", function() {
+    $("#start").on("click", function () {
         $("#timer").html("<p>00:10</p>")
         showQuestion();
     });
@@ -164,26 +165,24 @@ $(document).ready(function() {
         if (!chosen) {
             alert("no answer selected");
         } else
-        if (chosen === questions[index].answer) {
-            // console.log("Correct answer");
-            // $("button").hide();
-            timer.stopTimer();
-            alert("Correct.");
-            correct_answers++;
-            // removeQuestion();
-            // $("#answers").append("<img src='https://media3.giphy.com/media/l8HFdR4jE4SM8/200w.webp'/>");
-            clearInterval(timer.intervalID);
-            clearContent();
-        } else {
-            // $("button").hide();
-            timer.stopTimer();
-            alert("Incorrect.");
-            incorrect_answers++;
-            // removeQuestion();
-            // $("#answers").append("<img src='https://media3.giphy.com/media/yhWfYEaF7TkQ0/giphy.gif'/>");
-            clearInterval(timer.intervalID);
-            clearContent();
-        }
+            if (chosen === questions[index].answer) {
+                // console.log("Correct answer");
+                // $("button").hide();
+                timer.stopTimer();
+                alert("Correct.");
+                correct_answers++;
+                points = points + (points * timer.time_remaining);
+                clearInterval(timer.intervalID);
+                clearContent();
+            } else {
+                // $("button").hide();
+                timer.stopTimer();
+                alert("Incorrect.");
+                incorrect_answers++;
+                points = points - (points * timer.time_remaining);
+                clearInterval(timer.intervalID);
+                clearContent();
+            }
     }
 
     // Clear content
@@ -224,6 +223,7 @@ $(document).ready(function() {
         counter = 0;
         incorrect_answers = 0;
         index = 0;
+        points = 0;
         for (var i = 0; i < questions.length; i++) {
             questions[i].asked = false;
         }
