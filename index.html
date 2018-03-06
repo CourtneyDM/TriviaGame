@@ -18,17 +18,30 @@
     </header>
 
     <!-- Area to display the questions -->
-    <div id="timer"></div>
     <div id="content">
-        <p id="instructions">You will be present with a photo of a sports logo, and a question will be asked based on information relative that logo. You will have 10 seconds to answer each question. Good luck!</p>
+        <p id="instructions">
+            <em>
+                <strong>Objective</strong>
+            </em>: You will be shown a sports logo, along with a question relative to that team. You have to guess the correct
+            answer within the allowed time to score points.</p>
+        <p>
+            <em>
+                <strong>Scoring</strong>
+            </em>: Each question is worth 10 points, with the chance of multiplying your points by answering before time expires.</p>
+        <p>For each correct answer, the remaining time will act as the multiplier - i.e. 6 seconds left will earn you 60 points.</p>
+        <p>Be careful - for each incorrect answer you will lose points based on the multiplier - i.e. 6 seconds left for an
+            incorrect answer will cost you 60 points! Think carefully before you answer, and good luck!</p>
     </div>
-    <div id="questions"></div>
+    <div id="questions">
+        <img src="assets/images/nfl_logo_2.png" alt="NFL Logo">
+    </div>
     <div id="imgSrc"></div>
     <div id="answers"></div>
 
     <!-- Area to display answers -->
     <button type="submit" id="start">Start Game</button>
     <script src="assets/javascript/app.js"></script>
+    <script src="assets/javascript/questions.js"></script>
 </body>
 
 </html>
