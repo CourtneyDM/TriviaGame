@@ -15,8 +15,6 @@ $(document).ready(function () {
     var imageDisplay = $("#imgSrc");
     var questionDisplay = $("#questions");
 
-
-
     // Timer Object
     var timer = {
         time_remaining: 10,
@@ -143,16 +141,6 @@ $(document).ready(function () {
             }
     }
 
-    // Clear content
-    function clearContent() {
-        questionDisplay.empty();
-        answerDisplay.empty();
-        imageDisplay.empty();
-        content.html("<span id='timer'>Time Left: 00:" + timer.time_remaining + "</span>");
-        content.append("<span id='score'> Total Score: " + totalScore + "</span>");
-        showQuestion();
-    }
-
     // Show Results
     function showResults() {
         $("button").off();
@@ -188,5 +176,15 @@ $(document).ready(function () {
             questions[i].asked = false;
         }
         clearContent();
+    }
+
+    // Clear content
+    function clearContent() {
+        questionDisplay.empty();
+        answerDisplay.empty();
+        imageDisplay.empty();
+        content.html("<span id='timer'>Time Left: 00:" + timer.time_remaining + "</span>");
+        content.append("<span id='score'> Total Score: " + totalScore + "</span>");
+        showQuestion();
     }
 });
