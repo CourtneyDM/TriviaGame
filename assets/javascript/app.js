@@ -108,7 +108,7 @@ $(document).ready(function () {
 
         for (var i = 0; i < answers.length; i++) {
             var answer = answers[i];
-            answerDisplay.append("<input type='radio' class='choices' name='answer' value='" + answer + "'/>" + answer + "<br/>");
+            answerDisplay.html("<input type='radio' class='choices' name='answer' value='" + answer + "'/>" + answer + "<br/>");
         }
         $("#start").on("click", checkAnswer);
     }
@@ -190,12 +190,11 @@ $(document).ready(function () {
         showQuestion();
     }
 
-    function correctAnswer() {
-        // Add message and image for correct answer
+    function showImage() {
+        // create a placeholder for the image
+        // show the image on the webpage
+        // set the interval values for timeout and display image
+        // run the clearContent function to prepare webpage for next question
 
-    }
-
-    function incorrectanswer() {
-        // add message and image for incorrct answer
     }
 });
