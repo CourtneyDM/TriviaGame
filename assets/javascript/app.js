@@ -38,7 +38,7 @@ $(document).ready(function () {
                 timer.stopTimer();
                 alert("Time has expired");
                 incorrect_answers++;
-                totalScore = totalScore - (points * 10);
+                totalScore = totalScore - points;
                 question.asked = true;
                 clearContent();
             }
@@ -60,6 +60,8 @@ $(document).ready(function () {
         }
     }
 
+    $("button").addClass("btn btn-default");
+
     // Start game when button has been clicked
     $("#start").on("click", function () {
         content.html("<span id='timer'>Time Left: 00:" + timer.time_remaining + "</span>");
@@ -76,9 +78,9 @@ $(document).ready(function () {
         $("#score").text("Total Score: " + totalScore);
         index = Math.floor(Math.random() * questions.length);
 
-        if (questions[index].asked === true && counter === questions.length) {
+        if (questions[index].asked === true && counter === 4) {
             showResults();
-        } else if (questions[index].asked === true && counter !== questions.length) {
+        } else if (questions[index].asked === true && counter !== 4) {
             showQuestion();
         } else {
             questionDisplay.empty();
@@ -106,7 +108,7 @@ $(document).ready(function () {
 
         for (var i = 0; i < answers.length; i++) {
             var answer = answers[i];
-            answerDisplay.append("<input type='radio' name='answer' value='" + answer + "'/>" + answer);
+            answerDisplay.append("<input type='radio' class='choices' name='answer' value='" + answer + "'/>" + answer + "<br/>");
         }
         $("#start").on("click", checkAnswer);
     }
@@ -186,5 +188,14 @@ $(document).ready(function () {
         content.html("<span id='timer'>Time Left: 00:" + timer.time_remaining + "</span>");
         content.append("<span id='score'> Total Score: " + totalScore + "</span>");
         showQuestion();
+    }
+
+    function correctAnswer() {
+        // Add message and image for correct answer
+
+    }
+
+    function incorrectanswer() {
+        // add message and image for incorrct answer
     }
 });
